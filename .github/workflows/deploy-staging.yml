@@ -29,7 +29,7 @@ jobs:
       - name: Deployer les fichiers sur cPanel via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ://maindoeuvrelocale.com
+          server: maindoeuvrelocale.com
           username: ${{ secrets.FTP_STAGING_USERNAME }}
           password: ${{ secrets.FTP_STAGING_PASSWORD }}
           local-dir: ./
