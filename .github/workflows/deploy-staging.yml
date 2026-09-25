@@ -34,4 +34,4 @@ jobs:
           password: ${{ secrets.FTP_STAGING_PASSWORD }}
           local-dir: ./
           # On cible le dossier parent (cPanel pointe deja le domaine vers /public)
-          server-dir: public_html/://maindoeuvrelocale.com
+          server-dir: public_html/://maindoeuvrelocale.com/
