@@ -1,0 +1,37 @@
+name: Deploiement Staging maindoeuvrelocale
+
+on:
+  push:
+    branches:
+      - staging  # Se declenche uniquement lorsque vous poussez du code sur la branche staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Recuperer le code source
+        uses: actions/checkout@v4
+
+      - name: Configurer PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql
+          coverage: none
+
+      - name: Installer Composer v2
+        run: sudo composer self-update --2
+
+      - name: Installer les dependances Symfony
+        run: |
+          composer install --no-dev --optimize-autoloader --no-scripts
+
+      - name: Deployer les fichiers sur cPanel via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ://maindoeuvrelocale.com
+          username: ${{ secrets.FTP_STAGING_USERNAME }}
+          password: ${{ secrets.FTP_STAGING_PASSWORD }}
+          local-dir: ./
+          # On cible le dossier parent (cPanel pointe deja le domaine vers /public)
+          server-dir: public_html/://maindoeuvrelocale.com
